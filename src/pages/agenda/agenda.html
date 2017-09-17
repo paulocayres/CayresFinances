@@ -1,0 +1,50 @@
+<!--
+  Generated template for the AgendaPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+        <ion-icon name="cayres-finance"></ion-icon>
+      </button>
+    <ion-buttons *ngIf="select" end>
+      <button ion-button danger icon-only (tap)="update(agenda)">
+          <ion-icon name="create"></ion-icon>
+        </button>
+      <button ion-button icon-only (tap)="delete(agenda)">
+          <ion-icon name="trash"></ion-icon>
+        </button>
+    </ion-buttons>
+    <ion-title>Agenda Financeira</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-list>
+    <button ion-item [ngClass]="{'selected': idx===currentSelected}" *ngFor="let agenda of agendas; let idx = index" (press)="buttons(agenda,idx)"
+      (tap)="goPage(agenda,idx)">
+      <div>
+        {{agenda.descricao}}
+      </div>
+      <div style="text-align: right">
+        Número de Parcelas: {{agenda.parcelas}}
+      </div>
+      <div style="text-align: right">
+        Valor: {{agenda.parcela[0].sinal }} {{agenda.parcela[0].valor | currency:'BRL':true:'1.2-2' }}
+      </div>
+      <div style="text-align: right">
+        Data de Vencimento: {{agenda.parcela[0].vencimento }}
+      </div>
+   </button>
+  </ion-list>
+
+
+  <ion-fab top edge right *ngIf="!select">
+    <button color="primary-fab" ion-fab (click)="insert()"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
+
+</ion-content>
