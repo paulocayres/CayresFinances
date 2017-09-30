@@ -28,9 +28,21 @@ p{
     color: color($colors,dark);
 }
 
+.menu{
+    color: color($colors, dark);
+}
+
+.backmenu{
+    background-color: color($colors, back);
+}
+
 .toolbar-background {
     background-color: color($colors,primary);
 }
+
+.toolbar-title.toolbar-title-md, 
+.toolbar-title.toolbar-title-ios, 
+.toolbar-title.toolbar-title-wp { color: color($colors, dark); }
 
 // Custom icons
 // Overriding the ion-icon behavior
@@ -52,11 +64,13 @@ p{
     }
 }*/
 
-.ion-ios-cayres-finance,
+/*.ion-ios-cayres-finance,
 .ion-md-cayres-finance {
   content: url(../../assets/icon/finance.svg);
   width: 45px;
   height: 32px;
   padding: 6px 4px 2px;
   opacity: 0.9;
-}
+}*/
+
+

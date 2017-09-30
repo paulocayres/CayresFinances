@@ -28,10 +28,17 @@ export class AgendaPage {
 
   agendas: Array<string>;
   // exclui: boolean;
-  agenda: any;
+  // agenda: any;
+  idSelected: any;
+  id: any;
   select: boolean = false;
-  index: any;
-  currentSelected: number = null;
+
+  mask: any = [
+    '(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/,
+    /\d/
+  ]
+
+  // id: any;
 
 
 
@@ -41,35 +48,20 @@ export class AgendaPage {
       public actionSheet: ActionSheetController,
       public alertCtrl: AlertController) {
     this.finances.getAgendas().subscribe(agendas => {this.agendas = agendas});
-    console.log(this.agendas);
   }
 
 
-  goPage(agenda, idx) {
-    console.log('entrou no gopage')
-
-        if (this.select == true && idx == this.currentSelected) {
+  goPage(agenda) {
+    if (this.select == true) {
       this.select = false;
-      this.currentSelected = null;
-    }
-    else {
-      this.navCtrl.push(
-          AgendaDetalhePage, {
-            index: this.agendas.indexOf(agenda),
-            nome: agenda.nome,
-            data: agenda.data,
-            hora: agenda.hora,
-            pais: agenda.pais,
-            uf: agenda.uf,
-            municipio: agenda.municipio,
-            codpostal: agenda.codpostal
-          }
-
-      );
+      this.idSelected = null;
+    } else {
+      this.navCtrl.push(AgendaDetalhePage, {'agenda': agenda});
       this.select = false;
-      this.currentSelected = null;
+      this.idSelected = null;
     }
   }
+
   insert() {
     let modal = this.modalCtrl.create(AgendaModalPage);
 
@@ -83,14 +75,12 @@ export class AgendaPage {
   }
 
   update(agenda) {
-    let modal = this.modalCtrl.create(
-        AgendaModalPage,
-        {parametro: agenda, index: this.agendas.indexOf(agenda)});
+    let modal = this.modalCtrl.create(AgendaModalPage, {parametro: agenda});
 
     modal.onDidDismiss((agenda) => {
       this.select = false;
-      this.currentSelected = null;
-      this.finances.update(agenda, this.index);
+      this.idSelected = null;
+      this.finances.update(agenda);
 
     });
 
@@ -99,23 +89,25 @@ export class AgendaPage {
 
 
   delete(agenda) {
-    this.showConfirm();
+    this.showConfirm(agenda);
   }
 
   excluir(agenda) {
     console.log(agenda);
-    this.finances.excluir(this.agendas.indexOf(agenda));
+    this.finances.excluir(agenda);
     this.select = false;
-    this.currentSelected = null;
+    this.idSelected = null;
   }
 
-  buttons(agenda: any, idx: number) {
-    this.agenda = agenda;
+  buttons(id) {
     this.select = true;
-    this.currentSelected = idx;
+    this.idSelected = id;
+    // console.log(agenda);
+    console.log(id);
+    console.log(this.idSelected);
   }
 
-  showConfirm() {
+  showConfirm(agenda) {
     let confirm = this.alertCtrl.create({
       title: 'Confirmação',
       message: 'Deseja Excluir?',
@@ -130,7 +122,7 @@ export class AgendaPage {
           text: 'Sim',
           handler: () => {
             console.log('Agree clicked');
-            this.excluir(this.agenda);
+            this.excluir(agenda);
           }
         }
       ]

@@ -1,6 +1,9 @@
-import { NgModule } from '@angular/core';
-import { IonicPageModule } from 'ionic-angular';
-import { AgendaDetalhePage } from './agenda-detalhe';
+import {NgModule} from '@angular/core';
+import {IonicPageModule} from 'ionic-angular';
+
+import {DirectivesModule} from '../../../directives/directives.module';
+
+import {AgendaDetalhePage} from './agenda-detalhe';
 
 @NgModule({
   declarations: [
@@ -8,6 +11,10 @@ import { AgendaDetalhePage } from './agenda-detalhe';
   ],
   imports: [
     IonicPageModule.forChild(AgendaDetalhePage),
+    DirectivesModule,
   ],
+  entryComponents: [AgendaDetalhePage],
+
 })
-export class AgendaDetalhePageModule {}
+export class AgendaDetalhePageModule {
+}

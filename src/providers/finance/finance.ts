@@ -12,15 +12,13 @@ import {Http} from '@angular/http';
 @Injectable()
 export class FinanceProvider {
   public agendas: Array<string>;
-  private url: string = 'http://localhost:3000/agendas';
+  private url: string = 'http://192.168.0.11:3000/agendas';
 
 
   constructor(private http: Http) {}
 
   getAgendas() {
-    var teste = this.http.get(this.url).map(res => res.json());
-    console.log(teste);
-    return teste;
+    return this.http.get(this.url).map(res => res.json());
   }
 
 
@@ -29,11 +27,11 @@ export class FinanceProvider {
     // this.links.push(agenda);
   }
 
-  update(agenda, index) {
+  update(agenda) {
     // this.links[index] = agenda;
   }
 
-  excluir(index) {
+  excluir(agenda) {
     // this.links.splice(index, 1);
   }
 }

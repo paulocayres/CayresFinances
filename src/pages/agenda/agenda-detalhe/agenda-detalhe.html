@@ -5,14 +5,39 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
   <ion-navbar>
-    <ion-title>agenda-detalhe</ion-title>
+    <ion-title>Detalhe da Agenda</ion-title>
   </ion-navbar>
-
 </ion-header>
 
 
 <ion-content padding>
+
+  <ion-fab right top edge>
+    <button color="primary-fab" ion-fab (click)="update(agenda)">
+      <ion-icon name="create"></ion-icon>
+    </button>
+  </ion-fab>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-12>{{agenda.descricao}}</ion-col>
+    </ion-row>
+    <ion-row style="font-size: 70%">
+      <ion-col col-6 style="text-align: left">Recorrente: {{agenda.recorrente ? "Sim" : "Não"}}</ion-col>
+      <ion-col col-6 style="text-align: right">Periodicidade: {{agenda.periodicidade }}</ion-col>
+    </ion-row>
+    <ion-row style="font-size: 70%">
+      <ion-col col-6 style="text-align: left">Forma de Pagamento: {{agenda.formaPagamento}}</ion-col>
+      <ion-col col-6 style="text-align: right">Centro de Custo: {{agenda.centroCusto}}</ion-col>
+    </ion-row>
+    <ion-row style="font-size: 70%">
+      <ion-col col-6 style="text-align: left">Número de Parcelas: {{agenda.parcelas}}</ion-col>
+      <ion-col col-6 style="text-align: right">Valor: {{agenda.parcela[0].sinal ? "+" : "-" }} {{agenda.parcela[0].valor | currency:'BRL':true:'1.2' }}</ion-col>
+    </ion-row>
+    <ion-row style="font-size: 70%">
+      <ion-col col-4 style="text-align: left">Categoria: {{agenda.categoria}}</ion-col>
+      <ion-col col-8 style="text-align: right">Data de Vencimento: {{agenda.parcela[0].vencimento }}</ion-col>
+    </ion-row>
+  </ion-grid>
 
 </ion-content>
