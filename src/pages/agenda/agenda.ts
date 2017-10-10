@@ -8,6 +8,8 @@ import {AgendaModalPage} from './agenda-modal/agenda-modal';
 
 
 
+
+
 /**
  * Generated class for the AgendaPage page.
  *
@@ -23,31 +25,31 @@ import {AgendaModalPage} from './agenda-modal/agenda-modal';
 export class AgendaPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad AgendaPage');
+    //this.finances.getAgendas().subscribe(agendas => {this.agendas = agendas});
+  }
+
+  ionViewWillEnter(){
+    console.log('ionViewWillEnter AgendaPage');
+    this.finances.getAgendas().subscribe(agendas => {this.agendas = agendas});
+
   }
 
 
   agendas: Array<string>;
   // exclui: boolean;
-  // agenda: any;
+  agenda: any;
   idSelected: any;
   id: any;
   select: boolean = false;
 
-  mask: any = [
-    '(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/,
-    /\d/
-  ]
-
-  // id: any;
-
-
+  agendaPage: any = AgendaPage;
 
   constructor(
       public navCtrl: NavController, public navParams: NavParams,
       public finances: FinanceProvider, public modalCtrl: ModalController,
       public actionSheet: ActionSheetController,
       public alertCtrl: AlertController) {
-    this.finances.getAgendas().subscribe(agendas => {this.agendas = agendas});
+      //this.finances.getAgendas().subscribe(agendas => {this.agendas = agendas});
   }
 
 
@@ -67,9 +69,24 @@ export class AgendaPage {
 
 
     modal.onDidDismiss(
-        (agenda) => {this.finances.insert(agenda)
-
+        (agenda) => {
+//this.finances.insert(agenda)
+          this.finances.insert(agenda).subscribe(response => {
+            
+            console.log(response),
+            this.navCtrl.getActive().instance.ionViewWillEnter()
+             
+            
+          
+          })
+         
         });
+
+
+
+
+
+        
 
     modal.present();
   }
@@ -81,7 +98,6 @@ export class AgendaPage {
       this.select = false;
       this.idSelected = null;
       this.finances.update(agenda);
-
     });
 
     modal.present();

@@ -27,6 +27,7 @@ export class MyApp {
       { title: 'Agenda Financeira', component: AgendaPage }
     ];
 
+    
   }
 
   initializeApp() {

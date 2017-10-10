@@ -20,52 +20,6 @@
   <!-- cordova.js required for cordova apps -->
   <script src="cordova.js"></script>
 
-
-  <script>
-    /* Função Principal 
-      * @param w - O elemento que será aplicado (normalmente this).
-   * @param e - O evento para capturar a tecla e cancelar o backspace.
-   * @param m - A máscara a ser aplicada.
-   * @param r - Se a máscara deve ser aplicada da direita para a esquerda.Veja Exemplos.
-   * @param a -
-   * @param p - true, deve aceitar letras  
-      * @returns null
-        */
-    function maskIt(w, m, r, a, p) {
-      // Variáveis da função
-      if (p === true) {
-        var txt = (!r) ? w.value.replace(/[^\w]+/gi, '') : w.value.replace(/[^\w]+/gi, '').reverse();
-      } else {
-        var txt = (!r) ? w.value.replace(/[^\d]+/gi, '') : w.value.replace(/[^\d]+/gi, '').reverse();
-      }
-      var mask = (!r) ? m : m.reverse();
-      var pre = (a) ? a.pre : "";
-      var pos = (a) ? a.pos : "";
-      var ret = "";
-
-      // Loop na máscara para aplicar os caracteres
-      for (var x = 0, y = 0, z = mask.length; x < z && y < txt.length;) {
-        if ((mask.charAt(x) != '#') && (mask.charAt(x) != '&')) {
-          ret += mask.charAt(x); x++;
-        } else {
-          if (mask.charAt(x) == '#') {
-            ret += txt.charAt(y).replace(/[^\d]+/gi, ''); y++; x++;
-          } else if (mask.charAt(x) == '&') {
-            ret += txt.charAt(y).replace(/[\d]+/gi, ''); y++; x++;
-          }
-        }
-      }
-
-      // Retorno da função
-      ret = (!r) ? ret : ret.reverse()
-      w.value = pre + ret + pos;
-    }
-
-    // Novo método para o objeto 'String'
-    String.prototype.reverse = function () {
-      return this.split('').reverse().join('');
-    };
-  </script>
   <!-- un-comment this code to enable service worker
   <script>
     if ('serviceWorker' in navigator) {

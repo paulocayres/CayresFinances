@@ -1,3 +1,4 @@
+import { AgendaPage } from './../agenda';
 import {Component} from '@angular/core';
 import {IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
 
@@ -19,6 +20,8 @@ import {AgendaModalPage} from '../agenda-modal/agenda-modal';
 export class AgendaDetalhePage {
   agenda: any;
 
+  agendaPage: AgendaPage;
+
   constructor(
       public navCtrl: NavController, public navParams: NavParams,
       public modalCtrl: ModalController, public finance: FinanceProvider) {
@@ -34,8 +37,10 @@ export class AgendaDetalhePage {
     let modal = this.modalCtrl.create(AgendaModalPage, {parametro: agenda});
 
     modal.onDidDismiss(agenda => {
-      this.finance.update(agenda),
+      this.finance.update(agenda).subscribe(response => console.log(response)),
       this.agenda = JSON.parse(JSON.stringify(agenda))
+      
+      //this.agendaPage.ionViewDidLoad()
     });
 
     modal.present();
