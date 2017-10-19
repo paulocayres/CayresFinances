@@ -1,6 +1,6 @@
-import {Component} from '@angular/core';
+import { Component, ElementRef, Renderer2 } from '@angular/core';
 import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
-
+import {CurrencyPipe} from '@angular/common';
 
 /**
  * Generated class for the AgendaModalPage page.
@@ -14,6 +14,7 @@ import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular
 
   selector: 'page-agenda-modal',
   templateUrl: 'agenda-modal.html',
+  providers: [CurrencyPipe],
 })
 
 export class AgendaModalPage {
@@ -25,8 +26,13 @@ export class AgendaModalPage {
 
 
   constructor(
-      public navCtrl: NavController, public navParams: NavParams,
-      public viewCtrl: ViewController) {
+      public navCtrl: NavController,
+      public navParams: NavParams,
+      public viewCtrl: ViewController,
+      public curr: CurrencyPipe,
+      public el: ElementRef,
+      public ren: Renderer2
+    ){
     this.agendaCancel = navParams.get('parametro') || {
       'descricao': '',
       'recorrente': false,
@@ -35,9 +41,13 @@ export class AgendaModalPage {
       'formaPagamento': '',
       'centroCusto': '',
       'categoria': '',
-      'parcela': [{'valor': 'R$0,00', 'sinal': false, 'vencimento': ''}]
+      'parcela': [{'valor': '0.00', 'sinal': false, 'vencimento': ''}]
     };
+
     this.agendaUpdate = JSON.parse(JSON.stringify(this.agendaCancel));
+
+
+    
     // this.agendaUpdate = this.agendaCancel;
     // console.log(this.agendaCancel);
   }
@@ -46,25 +56,35 @@ export class AgendaModalPage {
     console.log('ionViewDidLoad AgendaModalPage');
   }
 
+  ionViewWillEnter(){
+    this.agendaUpdate.parcela[0].valor = this.curr.transform(this.agendaUpdate.parcela[0].valor, 'BRL', true, '1.2-2');
+  }
+
   cancel() {
-    this.viewCtrl.dismiss(this.agendaCancel);
+    this.viewCtrl.dismiss({'agenda': this.agendaUpdate, 'atu': false});
   }
 
   salvar() {
-    console.log(this.agendaUpdate.parcela[0].valor);
-    console.log(this.agendaUpdate);
+    //console.log(this.agendaUpdate.parcela[0].valor);
+    //console.log(this.agendaUpdate);
     this.agendaUpdate.parcela[0].valor =
-        this.unformat(this.agendaUpdate.parcela[0].valor.toString());
-    this.viewCtrl.dismiss(this.agendaUpdate);
+        Number(this.unformat(this.agendaUpdate.parcela[0].valor.toString()))/100;
+    this.viewCtrl.dismiss({'agenda': this.agendaUpdate, 'atu': true});
   }
 
   unformat(valor: string) {
-    valor = valor.replace('.', '');
-    valor = valor.replace('.', '');
+    valor = valor.replace('.','');
+    valor = valor.replace('.','');
+    valor = valor.replace('.','');
+    valor = valor.replace('.','');
+    valor = valor.replace('.','');
+    valor = valor.replace('.','');
+    valor = valor.replace('.','');    
+    valor = valor.replace(',', '');
+    valor = valor.replace(',', '');
+    valor = valor.replace(',', '');
     valor = valor.replace('R$', '');
-    valor = valor.replace('R$', '');
-    valor = valor.replace(',', '.');
-    valor = valor.replace(',', '.');
     return valor;
   }
+
 }

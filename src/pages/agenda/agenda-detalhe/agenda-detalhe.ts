@@ -36,11 +36,15 @@ export class AgendaDetalhePage {
   update(agenda) {
     let modal = this.modalCtrl.create(AgendaModalPage, {parametro: agenda});
 
-    modal.onDidDismiss(agenda => {
-      this.finance.update(agenda).subscribe(response => {
-        console.log(response)
-      }),
-      this.agenda = JSON.parse(JSON.stringify(agenda))
+    modal.onDidDismiss(obj => {
+      if (obj !== undefined){
+        if (obj.atu){
+          this.finance.update(obj.agenda).subscribe(response => {
+            console.log(response)
+          }),
+          this.agenda = JSON.parse(JSON.stringify(obj.agenda))
+        }
+      }
       
       //this.agendaPage.ionViewDidLoad()
     });

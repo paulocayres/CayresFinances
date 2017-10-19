@@ -8,7 +8,6 @@ import {IonicApp, IonicErrorHandler, IonicModule} from 'ionic-angular';
 import {DirectivesModule} from '../directives/directives.module';
 import {AgendaPageModule} from '../pages/agenda/agenda.module';
 import {HomePage} from '../pages/home/home';
-import {ListPage} from '../pages/list/list';
 import {FinanceProvider} from '../providers/finance/finance';
 
 import {MyApp} from './app.component';
@@ -18,7 +17,7 @@ import {MyApp} from './app.component';
 AgendaPageModule
 
     @NgModule({
-      declarations: [MyApp, HomePage, ListPage],
+      declarations: [MyApp, HomePage],
       imports: [
         BrowserModule, IonicModule.forRoot(MyApp), AgendaPageModule, HttpModule,
         DirectivesModule
@@ -27,7 +26,6 @@ AgendaPageModule
       entryComponents: [
         MyApp,
         HomePage,
-        ListPage,
       ],
       providers: [
         StatusBar,

@@ -60,7 +60,7 @@
     <ion-item>
       <ion-label floating>Valor da Agenda Financeira:</ion-label>
       <!--ion-input type="text" onkeyup="maskIt(event.target,'###.###.###,##',true,{pre:'R$',pos:''},false)" [(ngModel)]="agendaUpdate.parcela[0].valor"></ion-input-->
-      <ion-input type="text" pcc-currency [(ngModel)]="agendaUpdate.parcela[0].valor"></ion-input>
+      <ion-input type="text" ion-currency [(ngModel)]="agendaUpdate.parcela[0].valor"></ion-input>
     </ion-item>
 
     <ion-item>

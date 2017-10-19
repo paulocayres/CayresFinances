@@ -6,7 +6,6 @@ import {FinanceProvider} from '../../providers/finance/finance';
 import {AgendaDetalhePage} from './agenda-detalhe/agenda-detalhe';
 import {AgendaModalPage} from './agenda-modal/agenda-modal';
 
-
 /**
  * Generated class for the AgendaPage page.
  *
@@ -23,14 +22,12 @@ export class AgendaPage {
 
 
   agendas: Array<string>;
-  // exclui: boolean;
-
   agendaSelected: any;
   idSelected: any;
   id: any;
   select: boolean = false;
-
   agendaPage: any = AgendaPage;
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad AgendaPage');
     //this.finances.getAgendas().subscribe(agendas => {this.agendas = agendas});
@@ -39,7 +36,6 @@ export class AgendaPage {
   ionViewWillEnter(){
     console.log('ionViewWillEnter AgendaPage');
     this.finances.getAgendas().subscribe(agendas => {this.agendas = agendas});
-
   }
 
 
@@ -50,7 +46,6 @@ export class AgendaPage {
       public finances: FinanceProvider, public modalCtrl: ModalController,
       public actionSheet: ActionSheetController,
       public alertCtrl: AlertController) {
-      //this.finances.getAgendas().subscribe(agendas => {this.agendas = agendas});
   }
 
 
@@ -67,37 +62,35 @@ export class AgendaPage {
 
   insert() {
     let modal = this.modalCtrl.create(AgendaModalPage);
-
-
-    modal.onDidDismiss(
-        (agenda) => {
-//this.finances.insert(agenda)
-          this.finances.insert(agenda).subscribe(response => {
-            
+    modal.onDidDismiss(obj => {
+      if (obj !== undefined){
+        if (obj.atu){
+          this.finances.insert(obj.agenda).subscribe(response => {
             console.log(response),
             this.navCtrl.getActive().instance.ionViewWillEnter()
-             
-            
-          
-          })
-         
-        });
-
+          });
+        }
+        this.navCtrl.getActive().instance.ionViewWillEnter();
+      }
+    });
     modal.present();
   }
 
   update() {
     let modal = this.modalCtrl.create(AgendaModalPage, {parametro: this.agendaSelected});
-
-    modal.onDidDismiss((agenda) => {
-      this.select = false;
-      this.idSelected = null;
-      this.finances.update(agenda).subscribe(response => {
-        console.log(response),
-        this.navCtrl.getActive().instance.ionViewWillEnter()
-      });
+    modal.onDidDismiss( obj => {
+      if (obj !== undefined){
+        if (obj.atu){
+          this.select = false;
+          this.idSelected = null;
+          this.finances.update(obj.agenda).subscribe(response => {
+            console.log(response),
+            this.navCtrl.getActive().instance.ionViewWillEnter()
+          });
+        }
+      this.navCtrl.getActive().instance.ionViewWillEnter();
+      }
     });
-
     modal.present();
   }
 
@@ -119,9 +112,6 @@ export class AgendaPage {
     this.select = true;
     this.idSelected = id;
     this.agendaSelected = agenda;
-    // console.log(agenda);
-    //console.log(id);
-    //console.log(this.idSelected);
   }
 
   showConfirm() {

@@ -25,7 +25,7 @@
 
 
 <ion-content padding>
-
+  
   <ion-list>
     <button ion-item [ngClass]="{'selected': id===idSelected}" *ngFor="let agenda of agendas; let id = index" (press)="buttons(agenda,id)"
       (tap)="goPage(agenda)">
@@ -34,16 +34,14 @@
           <ion-col col-12>{{agenda.descricao}}</ion-col>
         </ion-row>
         <ion-row style="font-size: 70%">
-          <ion-col col-6 style="text-align: left">Número de Parcelas: {{agenda.parcelas}}</ion-col>
-          <ion-col col-6 style="text-align: right">Valor: {{agenda.parcela[0].sinal ? "+" : "-"}} {{agenda.parcela[0].valor | currency:'BRL':true:'1.2-2'}}</ion-col>
+          <ion-col col-12 style="text-align: left">Valor: {{agenda.parcela[0].sinal ? "+" : "-"}} {{agenda.parcela[0].valor | currency:'BRL':true:'1.2-2'}}</ion-col>
         </ion-row>
         <ion-row style="font-size: 70%">
-          <ion-col col-12 style="text-align: right">Data de Vencimento: {{agenda.parcela[0].vencimento}}</ion-col>
+          <ion-col col-12 style="text-align: left">Data de Vencimento: {{agenda.parcela[0].vencimento}}</ion-col>
         </ion-row>
       </ion-grid>
-   </button>
+    </button>
   </ion-list>
-
 
   <ion-fab top edge right *ngIf="!select">
     <button color="primary-fab" ion-fab (click)="insert()"><ion-icon name="add"></ion-icon></button>

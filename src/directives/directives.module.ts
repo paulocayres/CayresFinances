@@ -1,8 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CurrencyDirective } from './currency/currency';
+import { IonCurrencyDirective } from './ion-currency/ion-currency';
 @NgModule({
-	declarations: [CurrencyDirective],
+	declarations: [CurrencyDirective,
+    IonCurrencyDirective],
 	imports: [],
-	exports: [CurrencyDirective]
+	exports: [CurrencyDirective,
+    IonCurrencyDirective]
 })
 export class DirectivesModule {}
