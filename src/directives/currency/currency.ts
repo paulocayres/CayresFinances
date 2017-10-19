@@ -15,14 +15,27 @@ import {TextInput} from 'ionic-angular';
   selector: '[pcc-currency]',  // Attribute selector
   providers: [CurrencyPipe],
 })
+
 export class CurrencyDirective {
   @ContentChild(TextInput) ion_input: TextInput;
   orig: string;
+  key: string;
   valor: string;
+  keyCode: number;
+  which: number;
   i: boolean = false;
 
-  @HostListener('keyup', ['$event'])
+  @HostListener('keyUp', ['$event'])
   onkeyup(event: KeyboardEvent) {
+
+    this.key = event.key
+    this.keyCode = event.keyCode;
+    this.which = event.which;
+    
+    
+    //alert(this.key);
+    //alert(this.keyCode);
+    //alert(this.which);
     if (isNaN(Number(this.unformat(this.ion_input.value.toString())))) {
       this.ion_input.setValue('0.00');
       // console.log('Deu NaN');
@@ -32,10 +45,10 @@ export class CurrencyDirective {
       this.orig = this.ion_input.value.toString();
       // console.log('Capturou Primeiro Orig: ' + this.orig);
       this.i = true;
-    } else if (event.keyCode >= 96 && event.keyCode <= 105) {
+    } else if (this.key >= '0' && this.key <= '9') {
       this.orig = this.ion_input.value.toString();
       // console.log('Capturou Novo Orig: ' + this.orig);
-    } else if (event.keyCode == 8) {
+    } else if (this.keyCode == 8 || this.keyCode == 46) {
       this.orig = this.ion_input.value.toString() || '0';
       // console.log('Capturou Novo Orig Delete: ' + this.orig);
     }

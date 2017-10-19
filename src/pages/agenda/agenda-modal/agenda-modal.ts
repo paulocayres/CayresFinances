@@ -35,7 +35,7 @@ export class AgendaModalPage {
       'formaPagamento': '',
       'centroCusto': '',
       'categoria': '',
-      'parcela': [{'valor': 'R$0,00', 'sinal': '', 'vencimento': ''}]
+      'parcela': [{'valor': 'R$0,00', 'sinal': false, 'vencimento': ''}]
     };
     this.agendaUpdate = JSON.parse(JSON.stringify(this.agendaCancel));
     // this.agendaUpdate = this.agendaCancel;

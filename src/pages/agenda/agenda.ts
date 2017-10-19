@@ -7,9 +7,6 @@ import {AgendaDetalhePage} from './agenda-detalhe/agenda-detalhe';
 import {AgendaModalPage} from './agenda-modal/agenda-modal';
 
 
-
-
-
 /**
  * Generated class for the AgendaPage page.
  *
@@ -23,6 +20,17 @@ import {AgendaModalPage} from './agenda-modal/agenda-modal';
   templateUrl: 'agenda.html',
 })
 export class AgendaPage {
+
+
+  agendas: Array<string>;
+  // exclui: boolean;
+
+  agendaSelected: any;
+  idSelected: any;
+  id: any;
+  select: boolean = false;
+
+  agendaPage: any = AgendaPage;
   ionViewDidLoad() {
     console.log('ionViewDidLoad AgendaPage');
     //this.finances.getAgendas().subscribe(agendas => {this.agendas = agendas});
@@ -35,14 +43,7 @@ export class AgendaPage {
   }
 
 
-  agendas: Array<string>;
-  // exclui: boolean;
-  agenda: any;
-  idSelected: any;
-  id: any;
-  select: boolean = false;
 
-  agendaPage: any = AgendaPage;
 
   constructor(
       public navCtrl: NavController, public navParams: NavParams,
@@ -82,48 +83,48 @@ export class AgendaPage {
          
         });
 
-
-
-
-
-        
-
     modal.present();
   }
 
-  update(agenda) {
-    let modal = this.modalCtrl.create(AgendaModalPage, {parametro: agenda});
+  update() {
+    let modal = this.modalCtrl.create(AgendaModalPage, {parametro: this.agendaSelected});
 
     modal.onDidDismiss((agenda) => {
       this.select = false;
       this.idSelected = null;
-      this.finances.update(agenda);
+      this.finances.update(agenda).subscribe(response => {
+        console.log(response),
+        this.navCtrl.getActive().instance.ionViewWillEnter()
+      });
     });
 
     modal.present();
   }
 
 
-  delete(agenda) {
-    this.showConfirm(agenda);
+  delete() {
+    this.showConfirm();
   }
 
-  excluir(agenda) {
-    console.log(agenda);
-    this.finances.excluir(agenda);
+  excluir() {
+    this.finances.excluir(this.agendaSelected).subscribe(response => {
+      console.log(response),
+      this.navCtrl.getActive().instance.ionViewWillEnter()
+    });
     this.select = false;
     this.idSelected = null;
   }
 
-  buttons(id) {
+  buttons(agenda, id) {
     this.select = true;
     this.idSelected = id;
+    this.agendaSelected = agenda;
     // console.log(agenda);
-    console.log(id);
-    console.log(this.idSelected);
+    //console.log(id);
+    //console.log(this.idSelected);
   }
 
-  showConfirm(agenda) {
+  showConfirm() {
     let confirm = this.alertCtrl.create({
       title: 'Confirmação',
       message: 'Deseja Excluir?',
@@ -138,7 +139,7 @@ export class AgendaPage {
           text: 'Sim',
           handler: () => {
             console.log('Agree clicked');
-            this.excluir(agenda);
+            this.excluir();
           }
         }
       ]

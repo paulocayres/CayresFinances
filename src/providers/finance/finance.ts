@@ -68,5 +68,13 @@ export class FinanceProvider {
 
   excluir(agenda) {
     // this.links.splice(index, 1);
+
+      console.log(agenda);
+    let urlDelete = this.url + agenda._id;
+
+    return this.http.delete(urlDelete)
+    .map(res => res.json())
+    .catch(this.errorHandler);
+
   }
 }
