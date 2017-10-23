@@ -14,7 +14,11 @@ import 'rxjs/Rx';
 @Injectable()
 export class FinanceProvider {
   public agendas: Array<string>;
-  private url: string = 'http://192.168.0.11:3000/agendas/';
+  //private url: string = 'http://192.168.0.11:3000/finances/';
+  //private url: string = 'http://191.176.120.190:3000/finances/';
+  private url: string = 'https://pccr-finances-api.herokuapp.com/finances/';
+  
+  
 
   errorHandler: any;
 

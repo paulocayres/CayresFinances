@@ -128,7 +128,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var FinanceProvider = (function () {
     function FinanceProvider(http) {
         this.http = http;
-        this.url = 'http://192.168.0.11:3000/agendas/';
+        //private url: string = 'http://192.168.0.11:3000/finances/';
+        //private url: string = 'http://191.176.120.190:3000/finances/';
+        this.url = 'https://pccr-finances-api.herokuapp.com/finances/';
     }
     FinanceProvider.prototype.getAgendas = function () {
         return this.http.get(this.url).map(function (res) { return res.json(); });
@@ -351,11 +353,13 @@ var AgendaDetalhePage = (function () {
         var _this = this;
         var modal = this.modalCtrl.create(__WEBPACK_IMPORTED_MODULE_3__agenda_modal_agenda_modal__["a" /* AgendaModalPage */], { parametro: agenda });
         modal.onDidDismiss(function (obj) {
-            if (obj.atu || obj.aur !== undefined) {
-                _this.finance.update(obj.agenda).subscribe(function (response) {
-                    console.log(response);
-                }),
-                    _this.agenda = JSON.parse(JSON.stringify(obj.agenda));
+            if (obj !== undefined) {
+                if (obj.atu) {
+                    _this.finance.update(obj.agenda).subscribe(function (response) {
+                        console.log(response);
+                    }),
+                        _this.agenda = JSON.parse(JSON.stringify(obj.agenda));
+                }
             }
             //this.agendaPage.ionViewDidLoad()
         });
@@ -487,13 +491,15 @@ var AgendaPage = AgendaPage_1 = (function () {
         var _this = this;
         var modal = this.modalCtrl.create(__WEBPACK_IMPORTED_MODULE_4__agenda_modal_agenda_modal__["a" /* AgendaModalPage */]);
         modal.onDidDismiss(function (obj) {
-            if (obj.atu) {
-                _this.finances.insert(obj.agenda).subscribe(function (response) {
-                    console.log(response),
-                        _this.navCtrl.getActive().instance.ionViewWillEnter();
-                });
+            if (obj !== undefined) {
+                if (obj.atu) {
+                    _this.finances.insert(obj.agenda).subscribe(function (response) {
+                        console.log(response),
+                            _this.navCtrl.getActive().instance.ionViewWillEnter();
+                    });
+                }
+                _this.navCtrl.getActive().instance.ionViewWillEnter();
             }
-            _this.navCtrl.getActive().instance.ionViewWillEnter();
         });
         modal.present();
     };
@@ -501,15 +507,17 @@ var AgendaPage = AgendaPage_1 = (function () {
         var _this = this;
         var modal = this.modalCtrl.create(__WEBPACK_IMPORTED_MODULE_4__agenda_modal_agenda_modal__["a" /* AgendaModalPage */], { parametro: this.agendaSelected });
         modal.onDidDismiss(function (obj) {
-            if (obj.atu) {
-                _this.select = false;
-                _this.idSelected = null;
-                _this.finances.update(obj.agenda).subscribe(function (response) {
-                    console.log(response),
-                        _this.navCtrl.getActive().instance.ionViewWillEnter();
-                });
+            if (obj !== undefined) {
+                if (obj.atu) {
+                    _this.select = false;
+                    _this.idSelected = null;
+                    _this.finances.update(obj.agenda).subscribe(function (response) {
+                        console.log(response),
+                            _this.navCtrl.getActive().instance.ionViewWillEnter();
+                    });
+                }
+                _this.navCtrl.getActive().instance.ionViewWillEnter();
             }
-            _this.navCtrl.getActive().instance.ionViewWillEnter();
         });
         modal.present();
     };
